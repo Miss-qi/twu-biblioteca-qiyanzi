@@ -17,6 +17,8 @@ public class BibliotecaAppTest {
     private Menu menu;
     private List<Book> bookList;
     private List<Book> checkedoutBookList;
+    private List<Movie> movieList;
+    private List<Movie> checkedoutMovieList;
 
     @Before
     public void setUp() {
@@ -38,6 +40,18 @@ public class BibliotecaAppTest {
         Book checkedoutBook2 = mock(Book.class);
         checkedoutBookList.add(checkedoutBook1);
         checkedoutBookList.add(checkedoutBook2);
+
+        movieList = new ArrayList<Movie>();
+        Movie movie1 = mock(Movie.class);
+        Movie movie2 = mock(Movie.class);
+        movieList.add(movie1);
+        movieList.add(movie2);
+
+        checkedoutMovieList = new ArrayList<Movie>();
+        Movie checkedoutMovie1 = mock(Movie.class);
+        Movie checkedoutMovie2 = mock(Movie.class);
+        checkedoutMovieList.add(checkedoutMovie1);
+        checkedoutMovieList.add(checkedoutMovie2);
     }
 
     @Test
@@ -47,35 +61,63 @@ public class BibliotecaAppTest {
 
     @Test
     public void shouldDisplayWelcomeMessageWhenStarting() {
-        menu.selectOption();
+        menu.selectOption(1);
         verify(display).displayWelcomeMessage();
     }
 
     @Test
     public void shouldDisplayMessageWhenGetInvalidOption() {
         when(display.getUserInput()).thenReturn("666", "1", "Q");
-        menu.selectOption();
+        menu.selectOption(1);
         verify(printStream).println("Select a valid option!");
     }
 
     @Test
     public void shouldDisplayBookListWhenGetValidOption() {
         when(display.getUserInput()).thenReturn("1", "Q");
-        menu.selectOption();
+        menu.selectOption(1);
         verify(library).displayBooksWithBookNumber();
     }
 
     @Test
     public void shouldCheckoutBookWhenGetValidOption() {
         when(display.getUserInput()).thenReturn("2", "Q");
-        menu.selectOption();
+        menu.selectOption(1);
         verify(library).checkoutBook();
     }
 
     @Test
     public void shouldReturnBookWhenGetValidOption() {
         when(display.getUserInput()).thenReturn("3", "Q");
-        menu.selectOption();
+        menu.selectOption(1);
         verify(library).returnBook();
+    }
+
+    @Test
+    public void shouldDisplayMovieListWhenGetValidOption() {
+        when(display.getUserInput()).thenReturn("4", "Q");
+        menu.selectOption(1);
+        verify(library).displayMoviesWithMovieNumber();
+    }
+
+    @Test
+    public void shouldCheckoutMovieWhenGetValidOption() {
+        when(display.getUserInput()).thenReturn("5", "Q");
+        menu.selectOption(1);
+        verify(library).checkoutMovie();
+    }
+
+    @Test
+    public void shouldReturnMovieWhenGetValidOption() {
+        when(display.getUserInput()).thenReturn("6", "Q");
+        menu.selectOption(1);
+        verify(library).returnMovie();
+    }
+
+    @Test
+    public void shouldReturnUserInfoWhenGetValidOption() {
+        when(display.getUserInput()).thenReturn("7", "Q");
+        menu.selectOption(1);
+        verify(library).displayUserInformation(1);
     }
 }

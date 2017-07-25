@@ -16,6 +16,10 @@ public class LibraryTest {
     private Book book1;
     private List<Book> checkedOutBookList;
     private Display display;
+    private List<Movie> movieList;
+    private Movie movie1;
+    private List<Movie> checkedoutMovieList;
+    private List<User> userList;
 
     @Before
     public void setUp() {
@@ -32,7 +36,22 @@ public class LibraryTest {
         Book checkedoutBook2 = mock(Book.class);
         checkedOutBookList.add(checkedoutBook2);
 
-        library = new Library(bookList, printStream, checkedOutBookList, display);
+        movieList = new ArrayList<Movie>();
+        movie1 = mock(Movie.class);
+        movieList.add(movie1);
+
+        checkedoutMovieList = new ArrayList<Movie>();
+        Movie checkedoutMovie1 = mock(Movie.class);
+        Movie checkedoutMovie2 = mock(Movie.class);
+        checkedoutMovieList.add(checkedoutMovie1);
+        checkedoutMovieList.add(checkedoutMovie2);
+
+        userList = new ArrayList<User>();
+        User user1 = mock(User.class);
+        userList.add(user1);
+
+        library = new Library(bookList, printStream, checkedOutBookList,
+                display, movieList, checkedoutMovieList, userList);
     }
 
     @Test
@@ -103,5 +122,60 @@ public class LibraryTest {
         library.returnBook();
         verify(printStream).println("Which book would you want to return?");
         verify(printStream).println("That is not a valid book to return.");
+    }
+
+    @Test
+    public void shouldDisplayMoviesWithMovieNumber() {
+        Movie movie2 = mock(Movie.class);
+        movieList.add(movie2);
+
+        library.displayMoviesWithMovieNumber();
+        for (Movie movie : movieList) {
+            verify(movie).getMovieDetail();
+        }
+        verify(printStream).print("1. ");
+        verify(printStream).print("2. ");
+    }
+
+    @Test
+    public void shouldCheckoutSelectedMovie() {
+        when(display.getUserInput()).thenReturn("1");
+        library.checkoutMovie();
+        printStream.println("Which movie would you like to check out?");
+        verify(printStream).println("Thank you! Enjoy your movie.");
+    }
+
+    @Test
+    public void shouldDisplayMessageWhenCheckoutMovieFailed() {
+        when(display.getUserInput()).thenReturn("2333");
+        library.checkoutMovie();
+        printStream.println("Which movie would you like to check out?");
+        verify(printStream).println("That movie is not available.");
+    }
+
+    @Test
+    public void shouldDisplayCheckedoutMoviesWithMovieNumber() {
+        library.displayCheckedoutMoviesWithMovieNumber();
+        for (Movie movie : checkedoutMovieList) {
+            verify(movie).getMovieDetail();
+        }
+        verify(printStream).print("1. ");
+        verify(printStream).print("2. ");
+    }
+
+    @Test
+    public void shouldDisplayMessageWhenReturnMovieSuccessful() {
+        when(display.getUserInput()).thenReturn("1");
+        library.returnMovie();
+        verify(printStream).println("Which movie would you want to return?");
+        verify(printStream).println("Thank you for returning the movie.");
+    }
+
+    @Test
+    public void shouldDisplayMessageWhenReturnMovieFailed() {
+        when(display.getUserInput()).thenReturn("6666");
+        library.returnMovie();
+        verify(printStream).println("Which movie would you want to return?");
+        verify(printStream).println("That is not a valid movie to return.");
     }
 }

@@ -15,9 +15,15 @@ public class BibliotecaApp {
         BufferedReader reader = new BufferedReader(in);
         Display display = new Display(printStream, reader);
         Library library = new Library(bookList(), printStream,
-                checkedoutBookList(), display);
+                checkedoutBookList(), display, movieList(), checkedoutMovieList(),
+                userList());
         Menu menu = new Menu(library, printStream, display);
-        menu.selectOption();
+        int index = library.getUserLoginInfomation();
+        while (index == -1) {
+            printStream.println("Your have incorrect input,please input again!");
+            index = library.getUserLoginInfomation();
+        }
+        menu.selectOption(index);
     }
 
     public static List<Book> bookList() {
@@ -38,5 +44,37 @@ public class BibliotecaApp {
         checkedoutBookList.add(checkedoutBook2);
 
         return checkedoutBookList;
+    }
+
+    public static List<Movie> movieList() {
+        List<Movie> movieList = new ArrayList<Movie>();
+        Movie movie1 = new Movie("movie1 name", "2001", "movie1 director", 3);
+        Movie movie2 = new Movie("movie2 name", "2002", "movie2 director", 9);
+        movieList.add(movie1);
+        movieList.add(movie2);
+
+        return movieList;
+    }
+
+    public static List<Movie> checkedoutMovieList() {
+        List<Movie> checkedoutMovieList = new ArrayList<Movie>();
+        Movie checkedoutMovie1 = new Movie("checkedoutMovie1 name", "2001", "checkedoutMovie1 director", 2);
+        Movie checkedoutMovie2 = new Movie("checkedoutMovie2 name", "2002", "checkedoutMovie2 director", 7);
+        checkedoutMovieList.add(checkedoutMovie1);
+        checkedoutMovieList.add(checkedoutMovie2);
+
+        return checkedoutMovieList;
+    }
+
+    public static List<User> userList() {
+        List<User> userList = new ArrayList<User>();
+        User user1 = new User("name1", "name1@name1.com", "13311111111", "133-1111", "1111");
+        User user2 = new User("name2", "name2@name2.com", "13322222222", "133-2222", "2222");
+        User user3 = new User("name3", "name3@name3.com", "13333333333", "133-3333", "3333");
+        userList.add(user1);
+        userList.add(user2);
+        userList.add(user3);
+
+        return userList;
     }
 }
