@@ -6,7 +6,6 @@ public class Menu {
     Library library;
     PrintStream printStream;
     Display display;
-    User user;
 
     public Menu(Library library, PrintStream printStream,
                 Display display) {
@@ -14,16 +13,6 @@ public class Menu {
         this.printStream = printStream;
         this.display = display;
     }
-
-//    public boolean userLogin() {
-//        printStream.print("Please input your library number: ");
-//        String library_number = display.getUserInput();
-//        printStream.println();
-//        printStream.print("Please input your password: ");
-//        String password = display.getUserInput();
-//        printStream.println();
-//        return  user.checkCredentials(library_number, password);
-//    }
 
     public void displayMenu() {
         printStream.println("------------------------");
